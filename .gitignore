@@ -1,0 +1,14 @@
+#ignore logs
+*.log
+*.lo_
+
+#ignore cert
+*.cer
+*.cert
+*.der
+*.key
+*.pass
+*.pem
+*.csr
+*.srl
+*.crt
