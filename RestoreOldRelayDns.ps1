@@ -1,11 +1,14 @@
-$sterlingDotCa = "sterlingcrane.ca"
-$sterlingDotCom = "sterlingcrane.com"
-$oldIP = "192.168.5.250"
-$newIP = "192.168.5.55"
-$hostAlias ="edmsmail.sterlingcrane.ca"
-$dc="edmsdc0"
-$dc3="edmsdc3"
-$dc9="edmsdc9"
+if(!($confPath))
+{
+	$confPath = ".\config\config.ps1"
+}
+try
+{
+	#load the configuration
+	. $confPath
+}catch{
+	Write-Error "Error Unable to load config file $ConfPath check to see if it was there or use -ConfPath to specify the Config file"
+}
 
 Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCom -RRType "A" -Name "relay" -RecordData $newIP
 

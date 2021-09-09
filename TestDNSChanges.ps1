@@ -1,34 +1,36 @@
-$sterlingDotCa = "testzone.ca"
-$sterlingDotCom = "testzone.com"
-$oldIP = "192.168.5.250"
-$newIP = "192.168.5.55"
-$hostAlias1 = "edmsmail.testzone.ca"
-$hostAlias2 = "edmsdutil3.testzone.ca"
-$dc = "EDMSDC0"
-$dc3 = "EDMSDC3"
-$dc9 = "EDMSDC9"
+if(!($confPath))
+{
+	$confPath = ".\config\config.ps1"
+}
+try
+{
+	#load the configuration
+	. $confPath
+}catch{
+	Write-Error "Error Unable to load config file $ConfPath check to see if it was there or use -ConfPath to specify the Config file"
+}
 
 
 
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "edmsmail" -ZoneName $sterlingDotCa -IPv4Address $oldIP 
+Add-DnsServerResourceRecordA -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -IPv4Address $oldIP 
 
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "spam" -ZoneName $sterlingDotCa -IPv4Address $oldIP
+Add-DnsServerResourceRecordA -ComputerName $dc -Name "spam" -ZoneName $tsterlingDotCa -IPv4Address $oldIP
 
-Add-DnsServerResourceRecordMX -ComputerName $dc -Name "edmsmail" -ZoneName $sterlingDotCa -MailExchange $hostAlias1 -Preference 10 
+Add-DnsServerResourceRecordMX -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -MailExchange $thostAlias1 -Preference 10 
 
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "mail" -ZoneName $sterlingDotCom -IPv4Address $oldIP
+Add-DnsServerResourceRecordA -ComputerName $dc -Name "mail" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
 
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "relay" -ZoneName $sterlingDotCom -IPv4Address $oldIP
+Add-DnsServerResourceRecordA -ComputerName $dc -Name "relay" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
 
-Add-DnsServerResourceRecordCName -Name "webmail" -ZoneName $sterlingDotCom -HostNameAlias $hostAlias1 -ComputerName $dc
+Add-DnsServerResourceRecordCName -Name "webmail" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
 
-Add-DnsServerResourceRecordCName -Name "smtp" -ZoneName $sterlingDotCom -HostNameAlias $hostAlias1 -ComputerName $dc
+Add-DnsServerResourceRecordCName -Name "smtp" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
 
-Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $sterlingDotCom -HostNameAlias $hostAlias1 -ComputerName $dc
+Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
 
-Add-DnsServerResourceRecordCName -Name "intrelay" -ZoneName $sterlingDotCom -HostNameAlias $hostAlias2 -ComputerName $dc
+Add-DnsServerResourceRecordCName -Name "intrelay" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias2 -ComputerName $dc
 
-Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $sterlingDotCom -HostNameAlias $hostAlias1 -ComputerName $dc
+Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
 
 Add-DnsServerPrimaryZone -ComputerName $dc -Name "mail.testzone.ca" -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
 
@@ -40,13 +42,13 @@ Add-DnsServerResourceRecordA -ComputerName $dc -Name "." -ZoneName "testzone.pri
 
 Start-Sleep -Seconds 180
 
-Sync-DnsServerZone -ComputerName $dc3 -Name $sterlingDotCa
+Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCa
 
-Sync-DnsServerZone -ComputerName $dc3 -Name $sterlingDotCom
+Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCom
 
-Sync-DnsServerZone -ComputerName $dc9 -Name $sterlingDotCa
+Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCa
 
-Sync-DnsServerZone -ComputerName $dc9 -Name $sterlingDotCom
+Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCom
 
 Start-Sleep -Seconds 180
 
@@ -71,21 +73,21 @@ foreach ($DNSServer in $DNSServers){
 
 Read-Host -Prompt "Press any key to continue"
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCa -RRType "A" -Name "spam" -RecordData $oldIP
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "A" -Name "spam" -RecordData $oldIP
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCa -RRType "A" -Name "edmsmail" -RecordData $oldIP
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "A" -Name "edmsmail" -RecordData $oldIP
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCa -RRType "MX" -Name "edmsmail" -RecordData $oldIP
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "MX" -Name "edmsmail" -RecordData $oldIP
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCom -RRType "CNAME" -Name "spam.testzone.com." 
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "spam.testzone.com." 
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCom -RRType "CNAME" -Name "webmail.testzone.com." 
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "webmail.testzone.com." 
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCom -RRType "CNAME" -Name "smtp.testzone.com." 
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "smtp.testzone.com." 
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCom -RRType "A" -Name "relay" -RecordData $oldIP
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "A" -Name "relay" -RecordData $oldIP
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $sterlingDotCom -RRType "A" -Name "mail" -RecordData $oldIP
+Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "A" -Name "mail" -RecordData $oldIP
 
 Clear-DnsServerCache -ComputerName $dc3
 
@@ -93,13 +95,13 @@ Clear-DnsServerCache -ComputerName $dc9
 
 Start-Sleep -Seconds 180
 
-Sync-DnsServerZone -ComputerName $dc3 -Name $sterlingDotCa
+Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCa
 
-Sync-DnsServerZone -ComputerName $dc3 -Name $sterlingDotCom
+Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCom
 
-Sync-DnsServerZone -ComputerName $dc9 -Name $sterlingDotCa
+Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCa
 
-Sync-DnsServerZone -ComputerName $dc9 -Name $sterlingDotCom
+Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCom
 
 Start-Sleep -Seconds 180
 
@@ -109,19 +111,19 @@ Write-Host ("Check to make sure that the entries have been removed")
 Read-Host -Prompt "Press any key to continue"
 
 
-Add-DnsServerResourceRecordA -Name "relay" -ZoneName $sterlingDotCom -IPv4Address $newIP -ComputerName $dc
+Add-DnsServerResourceRecordA -Name "relay" -ZoneName $tsterlingDotCom -IPv4Address $newIP -ComputerName $dc
 
-Add-DnsServerResourceRecordA -Name "mail" -ZoneName $sterlingDotCom -IPv4Address $newIP -ComputerName $dc
+Add-DnsServerResourceRecordA -Name "mail" -ZoneName $tsterlingDotCom -IPv4Address $newIP -ComputerName $dc
 
-Add-DnsServerResourceRecordA -Name "spam" -ZoneName $sterlingDotCom -IPv4Address $newIP -ComputerName $dc
+Add-DnsServerResourceRecordA -Name "spam" -ZoneName $tsterlingDotCom -IPv4Address $newIP -ComputerName $dc
 
 Clear-DnsServerCache -ComputerName $dc3
 
 Clear-DnsServerCache -ComputerName $dc9
 
-Sync-DnsServerZone -ComputerName $dc3 -Name $sterlingDotCom
+Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCom
 
-Sync-DnsServerZone -ComputerName $dc9 -Name $sterlingDotCom
+Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCom
 
 Write-Host ("DNS entries added tempzone.ca and tempzone.com")
 Write-Host ("Check to make sure that the new entries are on the server")

@@ -1,0 +1,13 @@
+$sterlingDotCa = "sterlingcrane.ca"
+$sterlingDotCom = "sterlingcrane.com"
+$oldIP = "192.168.5.250"
+$newIP = "192.168.5.55"
+$hostAlias ="edmsmail.sterlingcrane.ca"
+$dc="edmsdc0"
+$dc3="edmsdc3"
+$dc9="edmsdc9"
+
+$tsterlingDotCa = "testzone.ca"
+$tsterlingDotCom = "testzone.com"
+$thostAlias1 = "edmsmail.testzone.ca"
+$thostAlias2 = "edmsdutil3.testzone.ca"
