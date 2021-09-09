@@ -1,3 +1,23 @@
+<#
+	.SYNOPSIS
+	This script will create the Test Zones, DNS Entries and then delete and add the new DNS Entries just like the real script
+	.DESCRIPTION
+	This script will do the following
+        - Create 4 test zones
+        - Create the DNS entries in the test zones
+        - Test to make sure that the entries are created
+        - 
+	.OUTPUTS
+	Will output a display of the DNS records after they are created and then email the script user the results of the test
+	
+	.EXAMPLE
+	
+	.NOTES
+		ScriptName	: TestDNSChanges.ps1
+		Created by  : Winston Ruttan
+		Date Coded  : 09/09/2021
+#>
+
 if(!($confPath))
 {
 	$confPath = ".\config\config.ps1"
@@ -129,6 +149,56 @@ Write-Host ("DNS entries added tempzone.ca and tempzone.com")
 Write-Host ("Check to make sure that the new entries are on the server")
 
 Read-Host -Prompt "Press any key to continue"
+
+
+
+function CreateTestZones {
+    
+
+}
+
+function CreateTestEntries {
+    
+
+}
+
+function TestDeleteOldDNS {
+    
+
+}
+
+function TestAddNewDNS {
+    
+
+}
+
+function TestServers{
+
+
+}
+    
+function CleanupTestZones {
+    
+
+}
+
+
+function TestDNSChanges {
+    
+    CreateTestZones
+    
+    CreateTestEntries
+    
+    TestDeleteOldDNS
+
+    TestAddNewDNS
+
+    TestServers
+
+    CleanupTestZones
+    
+}
+
 
 <#
 spam.sterlingcrane.ca (A) 192.168.5.250
