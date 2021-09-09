@@ -1,0 +1,4 @@
+name,type,data
+"spam.testzone.ca","A","192.168.5.250"
+"mail.testzone.com","A","192.168.5.250"
+"relay.testzone.com","A","192.168.5.250"

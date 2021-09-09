@@ -1,0 +1,9 @@
+name,type,data
+"edmsmail.testzone.ca","A","192.168.5.250"
+"edmsmail.testzone.ca","MX","edmsmail.sterling.sterlingcrane.ca"
+"spam.testzone.ca","A","192.168.5.250"
+"mail.testzone.com","A","192.168.5.250"
+"relay.testzone.com","A","192.168.5.250"
+"webmail.testzone.com","CNAME","edmsmail.testzone.ca"
+"smtp.testzone.com","CNAME","edmsmail.testzone.ca"
+"spam.testzone.com","CNAME","edmsmail.testzone.ca"
