@@ -6,7 +6,7 @@
         - Create 4 test zones
         - Create the DNS entries in the test zones
         - Test to make sure that the entries are created
-        - 
+        - Cleans up the zones after the script is done
 	.OUTPUTS
 	Will output a display of the DNS records after they are created and then email the script user the results of the test
 	
@@ -31,46 +31,6 @@ try
 }
 
 
-
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -IPv4Address $oldIP 
-
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "spam" -ZoneName $tsterlingDotCa -IPv4Address $oldIP
-
-Add-DnsServerResourceRecordMX -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -MailExchange $thostAlias1 -Preference 10 
-
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "mail" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
-
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "relay" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
-
-Add-DnsServerResourceRecordCName -Name "webmail" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
-
-Add-DnsServerResourceRecordCName -Name "smtp" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
-
-Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
-
-Add-DnsServerResourceRecordCName -Name "intrelay" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias2 -ComputerName $dc
-
-Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
-
-Add-DnsServerPrimaryZone -ComputerName $dc -Name "mail.testzone.ca" -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
-
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "." -ZoneName "mail.testzone.ca" -IPv4Address $oldIP
-
-Add-DnsServerPrimaryZone -ComputerName $dc -Name "legacy.testzone.ca" -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
-
-Add-DnsServerResourceRecordA -ComputerName $dc -Name "." -ZoneName "testzone.priv" -IPv4Address $oldIP
-
-Start-Sleep -Seconds 180
-
-Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCa
-
-Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCom
-
-Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCa
-
-Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCom
-
-Start-Sleep -Seconds 180
 
 $DNSRecords = Import-Csv -path "c:\scripting\powershell\olddns.csv" -Header "name","type","data" | Select-Object -Skip 1
 
@@ -153,11 +113,39 @@ Read-Host -Prompt "Press any key to continue"
 
 
 function CreateTestZones {
-    
+    Add-DnsServerPrimaryZone -ComputerName $dc -Name "mail.testzone.ca" -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
+
+    Add-DnsServerResourceRecordA -ComputerName $dc -Name "." -ZoneName "mail.testzone.ca" -IPv4Address $oldIP
+
+    Add-DnsServerPrimaryZone -ComputerName $dc -Name "legacy.testzone.ca" -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
+
+    Add-DnsServerResourceRecordA -ComputerName $dc -Name "." -ZoneName "testzone.priv" -IPv4Address $oldIP
+
 
 }
 
 function CreateTestEntries {
+
+
+    Add-DnsServerResourceRecordA -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -IPv4Address $oldIP 
+
+    Add-DnsServerResourceRecordA -ComputerName $dc -Name "spam" -ZoneName $tsterlingDotCa -IPv4Address $oldIP
+
+    Add-DnsServerResourceRecordMX -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -MailExchange $thostAlias1 -Preference 10 
+
+    Add-DnsServerResourceRecordA -ComputerName $dc -Name "mail" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
+
+    Add-DnsServerResourceRecordA -ComputerName $dc -Name "relay" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
+
+    Add-DnsServerResourceRecordCName -Name "webmail" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
+
+    Add-DnsServerResourceRecordCName -Name "smtp" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
+
+    Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
+
+    Add-DnsServerResourceRecordCName -Name "intrelay" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias2 -ComputerName $dc
+
+    Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
     
 
 }
@@ -180,6 +168,17 @@ function TestServers{
 function CleanupTestZones {
     
 
+}
+
+function SyncDNSZone {
+    
+    Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCa
+
+    Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCom
+
+    Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCa
+
+    Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCom
 }
 
 
