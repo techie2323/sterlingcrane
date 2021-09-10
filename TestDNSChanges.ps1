@@ -39,22 +39,6 @@ $DNSZones = Import-Csv -path ".\lib\testdnszones.csv"
 
 <#Read-Host -Prompt "Press any key to continue"
 
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "A" -Name "spam" -RecordData $oldIP
-
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "A" -Name "edmsmail" -RecordData $oldIP
-
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "MX" -Name "edmsmail" -RecordData $oldIP
-
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "spam.testzone.com." 
-
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "webmail.testzone.com." 
-
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "smtp.testzone.com." 
-
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "A" -Name "relay" -RecordData $oldIP
-
-Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "A" -Name "mail" -RecordData $oldIP
-
 Clear-DnsServerCache -ComputerName $dc3
 
 Clear-DnsServerCache -ComputerName $dc9
@@ -122,6 +106,36 @@ function CreateTestEntries {
 
 function TestDeleteOldDNS {
     
+    foreach ($DNSRecord in $DNSRecords) {
+        switch ($DNSRecord.type) {
+            "A" {Remove-DnsServerResourceRecord -ComputerName $dc -Name $DNSRecord.name -ZoneName $DNSRecord.zone -RRType $DNSRecord.type -RecordData $DNSRecord.data -PassThru}
+            "MX"{Remove-DnsServerResourceRecord -ComputerName $dc -Name $DNSRecord.name -ZoneName $DNSRecord.zone -RRType $DNSRecord.type -MailExchange $DNSRecord.data -Preference 10 -PassThru}
+            "CNAME"{Remove-DnsServerResourceRecord -ComputerName $dc -Name $DNSRecord.name -ZoneName $DNSRecord.zone -RRType $DNSRecord.type -PassThru}
+        }
+    
+    }
+    
+    <#
+    foreach ($DNSRecord in $DNSRecords) {
+
+        Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $DNSRecord.zone -RRType $DNSRecord.type -Name $DNSRecord.name -RecordData $DNSRecord.data -PassThru
+    }
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "A" -Name "spam" -RecordData $oldIP
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "A" -Name "edmsmail" -RecordData $oldIP
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "MX" -Name "edmsmail" -RecordData $oldIP
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "spam.testzone.com." 
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "webmail.testzone.com." 
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "CNAME" -Name "smtp.testzone.com." 
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "A" -Name "relay" -RecordData $oldIP
+
+    Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCom -RRType "A" -Name "mail" -RecordData $oldIP#>
 
 }
 
@@ -131,24 +145,26 @@ function TestAddNewDNS {
 
 }
 
-function TestServers{
+function TestServers {
 
-    foreach ($DNSServer in $DNSServers){
+    foreach ($DNSServer in $DNSServers) {
         
-        foreach($DNSRecord in $DNSRecords){
-                write-host "Checking to see if $($DNSRecord.name) exists in DNS on $DNSServer"          
-                $DNSCheck = $(resolve-DnsName -name $DNSRecord.name -Type $DNSRecord.type -Server $DNSServer.server -erroraction 'silentlycontinue' | select-object Name)
-                write-host "DNS Lookup Result [blank if not found]: $($DNSCheck.Name)"
-                if ($($DNSCheck.Name) -match $($DNSRecord.name)) {         
-                    write-host "$DNSRecord.name exists in DNS" -ForegroundColor "Green" 
-                    #write-output "$($DNSRecord.name) $($DNSRecord.ip)" | out-file $ExistsInDNS -Append
-                }else{
-                    Write-Host("$DNSRecord.name does not exist in DNS") -ForegroundColor "Red" 
-                }
+        foreach($DNSRecord in $DNSRecords) {
+            Write-Host("Checking to see if " + $DNSRecord.name + " exists in DNS on " + $DNSServer)        
+            $DNSCheck = resolve-DnsName -name $DNSRecord.name -Type $DNSRecord.type -Server $DNSServer.server -erroraction 'silentlycontinue' | select-object Name
+            Write-Host("DNS Lookup Result [blank if not found]: " + $DNSCheck.Name)
+            if($DNSCheck.Name -match $DNSRecord.name) {         
+                Write-Host($DNSRecord.name + " exists in DNS") -ForegroundColor "Green" 
+                #write-output "$($DNSRecord.name) $($DNSRecord.ip)" | out-file $ExistsInDNS -Append
+            } else {
+                Write-Host($DNSRecord.name + " does not exist in DNS")  -ForegroundColor "Red" 
             }
+            
         }
-
+    }
 }
+
+
     
 function CleanupTestZones {
     foreach ($zone in $DNSZones) {
@@ -158,8 +174,10 @@ function CleanupTestZones {
 
 }
 
-function SyncDNSZone {
-    
+function SyncDNSZones {
+
+    Start-Sleep -seconds 240
+            
     Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCa
 
     Sync-DnsServerZone -ComputerName $dc3 -Name $tsterlingDotCom
@@ -167,6 +185,8 @@ function SyncDNSZone {
     Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCa
 
     Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCom
+
+    Start-Sleep -seconds 240
 }
 
 
@@ -181,11 +201,13 @@ function TestChanges {
 
     #TestAddNewDNS
 
-    #TestServers
+    SyncDNSZones
 
-    Read-Host("Press Any Key to Continue")
+    TestServers
 
-    CleanupTestZones
+    #Read-Host("Press Any Key to Continue")
+
+    #CleanupTestZones
     
 }
 
