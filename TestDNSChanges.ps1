@@ -30,28 +30,14 @@ try
 	Write-Error "Error Unable to load config file $ConfPath check to see if it was there or use -ConfPath to specify the Config file"
 }
 
+$DNSRecords = Import-Csv -path ".\lib\testolddns.csv" -Header "name","type","data","zone" | Select-Object -Skip 1
 
+$DNSServers = Import-Csv -path ".\lib\dnsservers.csv"
 
-$DNSRecords = Import-Csv -path "c:\scripting\powershell\olddns.csv" -Header "name","type","data" | Select-Object -Skip 1
+$DNSZones = Import-Csv -path ".\lib\testdnszones.csv"
+        
 
-$DNSServers = Import-Csv -path "c:\scripting\powershell\dnsservers.csv" 
-
-foreach ($DNSServer in $DNSServers){
-    
-   foreach($DNSRecord in $DNSRecords){
-        write-host "Checking to see if $($DNSRecord.name) exists in DNS on $DNSServer"          
-        $DNSCheck = $(resolve-DnsName -name $DNSRecord.name -Type $DNSRecord.type -Server $DNSServer.server -erroraction 'silentlycontinue' | select-object Name)
-        write-host "DNS Lookup Result [blank if not found]: $($DNSCheck.Name)"
-        if ($($DNSCheck.Name) -match $($DNSRecord.name)) {         
-            write-host "$DNSRecord.name exists in DNS" -ForegroundColor "Green" 
-            #write-output "$($DNSRecord.name) $($DNSRecord.ip)" | out-file $ExistsInDNS -Append
-        }else{
-            Write-Host("$DNSRecord.name does not exist in DNS") -ForegroundColor "Red" 
-        }
-    }
-}
-
-Read-Host -Prompt "Press any key to continue"
+<#Read-Host -Prompt "Press any key to continue"
 
 Remove-DnsServerResourceRecord -ComputerName $dc -ZoneName $tsterlingDotCa -RRType "A" -Name "spam" -RecordData $oldIP
 
@@ -108,46 +94,30 @@ Sync-DnsServerZone -ComputerName $dc9 -Name $tsterlingDotCom
 Write-Host ("DNS entries added tempzone.ca and tempzone.com")
 Write-Host ("Check to make sure that the new entries are on the server")
 
-Read-Host -Prompt "Press any key to continue"
+Read-Host -Prompt "Press any key to continue"#>
 
 
 
 function CreateTestZones {
-    Add-DnsServerPrimaryZone -ComputerName $dc -Name "mail.testzone.ca" -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
+    
+    foreach ($tzone in $DNSZones) {
 
-    Add-DnsServerResourceRecordA -ComputerName $dc -Name "." -ZoneName "mail.testzone.ca" -IPv4Address $oldIP
-
-    Add-DnsServerPrimaryZone -ComputerName $dc -Name "legacy.testzone.ca" -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
-
-    Add-DnsServerResourceRecordA -ComputerName $dc -Name "." -ZoneName "testzone.priv" -IPv4Address $oldIP
-
+        Add-DnsServerPrimaryZone -ComputerName $dc -Name $tzone.zonename -ReplicationScope "Forest" -DynamicUpdate Secure -PassThru
+    }
 
 }
 
 function CreateTestEntries {
 
-
-    Add-DnsServerResourceRecordA -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -IPv4Address $oldIP 
-
-    Add-DnsServerResourceRecordA -ComputerName $dc -Name "spam" -ZoneName $tsterlingDotCa -IPv4Address $oldIP
-
-    Add-DnsServerResourceRecordMX -ComputerName $dc -Name "edmsmail" -ZoneName $tsterlingDotCa -MailExchange $thostAlias1 -Preference 10 
-
-    Add-DnsServerResourceRecordA -ComputerName $dc -Name "mail" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
-
-    Add-DnsServerResourceRecordA -ComputerName $dc -Name "relay" -ZoneName $tsterlingDotCom -IPv4Address $oldIP
-
-    Add-DnsServerResourceRecordCName -Name "webmail" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
-
-    Add-DnsServerResourceRecordCName -Name "smtp" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
-
-    Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
-
-    Add-DnsServerResourceRecordCName -Name "intrelay" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias2 -ComputerName $dc
-
-    Add-DnsServerResourceRecordCName -Name "spam" -ZoneName $tsterlingDotCom -HostNameAlias $thostAlias1 -ComputerName $dc
+    foreach ($DNSRecord in $DNSRecords) {
+        switch ($DNSRecord.type) {
+            "A" {Add-DnsServerResourceRecordA -ComputerName $dc -Name $DNSRecord.name -ZoneName $DNSRecord.zone -IPv4Address $DNSRecord.data -PassThru}
+            "MX"{Add-DnsServerResourceRecordMX -ComputerName $dc -Name $DNSRecord.name -ZoneName $DNSRecord.zone -MailExchange $DNSRecord.data -Preference 10 -PassThru}
+            "CNAME"{Add-DnsServerResourceRecordCName -ComputerName $dc -Name $DNSRecord.name -ZoneName $DNSRecord.zone -HostNameAlias $DNSRecord.data -PassThru}
+        }
     
-
+    }
+   
 }
 
 function TestDeleteOldDNS {
@@ -156,17 +126,35 @@ function TestDeleteOldDNS {
 }
 
 function TestAddNewDNS {
+
     
 
 }
 
 function TestServers{
 
+    foreach ($DNSServer in $DNSServers){
+        
+        foreach($DNSRecord in $DNSRecords){
+                write-host "Checking to see if $($DNSRecord.name) exists in DNS on $DNSServer"          
+                $DNSCheck = $(resolve-DnsName -name $DNSRecord.name -Type $DNSRecord.type -Server $DNSServer.server -erroraction 'silentlycontinue' | select-object Name)
+                write-host "DNS Lookup Result [blank if not found]: $($DNSCheck.Name)"
+                if ($($DNSCheck.Name) -match $($DNSRecord.name)) {         
+                    write-host "$DNSRecord.name exists in DNS" -ForegroundColor "Green" 
+                    #write-output "$($DNSRecord.name) $($DNSRecord.ip)" | out-file $ExistsInDNS -Append
+                }else{
+                    Write-Host("$DNSRecord.name does not exist in DNS") -ForegroundColor "Red" 
+                }
+            }
+        }
 
 }
     
 function CleanupTestZones {
-    
+    foreach ($zone in $DNSZones) {
+        Remove-DnsServerZone -Name $zone.zonename -ComputerName $dc -PassThru
+        
+    }
 
 }
 
@@ -182,17 +170,20 @@ function SyncDNSZone {
 }
 
 
-function TestDNSChanges {
+function TestChanges {
+
     
     CreateTestZones
     
     CreateTestEntries
     
-    TestDeleteOldDNS
+    #TestDeleteOldDNS
 
-    TestAddNewDNS
+    #TestAddNewDNS
 
-    TestServers
+    #TestServers
+
+    Read-Host("Press Any Key to Continue")
 
     CleanupTestZones
     
