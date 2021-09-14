@@ -1,6 +1,6 @@
 name,type,data,zone
 "edmsmail","A","192.168.5.250","testzone.ca"
-"edmsmail","MX","edmsmail.sterling.sterlingcrane.ca","testzone.ca"
+"edmsmail","MX","edmsmail.testzone.ca","testzone.ca"
 "spam","A","192.168.5.250","testzone.ca"
 "mail","A","192.168.5.250","testzone.com"
 "relay","A","192.168.5.250","testzone.com"
