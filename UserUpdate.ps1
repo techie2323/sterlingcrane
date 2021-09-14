@@ -8,13 +8,14 @@ foreach ($u in $Users)
     catch {
         if($_ -like "*Cannot find an object with identity: '$u.Username'*"){
             $u.Username + "Doesn't exist"
-        }else{
-            "An error: $_"
         }
-
         continue
     }
     
-    Get-ADUser -Identity $u.Username -Properties co | select co 
-    
+    $Enabled = Get-ADUser -Identity $u.Username -Properties co | Where-Object {$_.Enabled -eq $true}
+
+    if($Enabled.co -eq $null){
+        $u.Username + "Will be updated"
+        set-aduser -Identity $u.Username -Country "CA"
+    }
 }
