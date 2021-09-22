@@ -1,3 +1,6 @@
+
+
+
 $Users = Import-Csv -path "c:\powershell\sterlingcrane\Lib\UserUpdate1.csv" -Header "LegalName","Username","Country","Complete" | Select-Object -Skip 1
 
 foreach ($u in $Users)
