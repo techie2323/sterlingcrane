@@ -19,7 +19,7 @@ Function Get-FixedDisk {
 }
 
 # where is the XAML file?
-$xamlFile = "C:\PoshGUI-sample\MainWindow.xaml"
+$xamlFile = ".\Lib\MainWindow.xaml"
 
 #create window
 $inputXML = Get-Content $xamlFile -Raw
