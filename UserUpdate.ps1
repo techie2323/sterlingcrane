@@ -1,4 +1,4 @@
-$Users = Import-Csv -path "c:\powershell\sterlingcrane\Lib\UserUpdate.csv" -Header "LegalName","Username","Country","Complete" | Select-Object -Skip 1
+$Users = Import-Csv -path "c:\powershell\sterlingcrane\Lib\UserUpdate1.csv" -Header "LegalName","Username","Country","Complete" | Select-Object -Skip 1
 
 foreach ($u in $Users)
 {
@@ -12,10 +12,12 @@ foreach ($u in $Users)
         continue
     }
     
-    $Enabled = Get-ADUser -Identity $u.Username -Properties co | Where-Object {$_.Enabled -eq $true}
+    $Enabled = Get-ADUser -Identity $u.Username -Properties * 
 
-    if($Enabled.co -eq $null){
-        $u.Username + "Will be updated"
-        set-aduser -Identity $u.Username -Country "CA"
+    if($Enabled.Enabled -eq $True){
+        if($Enabled.Country -eq $null){
+            $u.Username + " will be updated"
+            #set-aduser -Identity $u.Username -Country "CA"
+        }
     }
 }
