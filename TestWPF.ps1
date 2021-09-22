@@ -19,11 +19,7 @@ Function Get-FixedDisk {
 }
 
 # where is the XAML file?
-<<<<<<< HEAD
 $xamlFile = ".\Lib\MainWindow.xaml"
-=======
-$xamlFile = "F:\Source\sterlingcrane\MainWindow.xaml"
->>>>>>> e5fa0b049489ab40a2c82bf2c2f3b7673d21fc09
 
 #create window
 $inputXML = Get-Content $xamlFile -Raw
