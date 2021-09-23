@@ -20,7 +20,7 @@ foreach ($u in $Users)
     if($Enabled.Enabled -eq $True){
         if($Enabled.Country -eq $null){
             $u.Username + " will be updated"
-            #set-aduser -Identity $u.Username -Country "CA"
+            set-aduser -Identity $u.Username -Country "CA"
         }
     }
 }
