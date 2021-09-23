@@ -11,10 +11,10 @@ $hostname = [System.Net.Dns]::GetHostName()
 $attachment = "c:\temp\"+$hostname+"-results.txt"
 
 #Creates blank txt file for the results
-$exists = Test-Path C:\temp\EDMSVEEAMP1-results.txt
+$exists = Test-Path $attachment
 
 if($exists -eq $true){
-    Remove-Item -Path C:\temp\EDMSVEEAMP1-results.txt -Force
+    Remove-Item -Path $attachemnt -Force
     New-Item $attachment
 }else{
     New-Item $attachment
@@ -46,5 +46,5 @@ Add-Content $attachment $resultsContent
 
 
 #Sends the email with the results files attached
-Send-MailMessage -From $from -To $to -Subject $subject -Body "Just trying to send and email using PS" -SmtpServer $smtpServer -Attachments $attachment
+Send-MailMessage -From $from -To $to -Subject $subject -Body "Just trying to send and email using the new relay server" -SmtpServer $smtpServer -Attachments $attachment
 
