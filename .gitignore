@@ -12,3 +12,6 @@
 *.csr
 *.srl
 *.crt
+
+#Ignore paths
+/.vs

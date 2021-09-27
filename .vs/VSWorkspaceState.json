@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\config"
   ],
-  "SelectedNode": "\\UserUpdate.ps1",
+  "SelectedNode": "\\config\\config.ps1",
   "PreviewInSolutionExplorer": false
 }
