@@ -7,6 +7,18 @@ $libRoot = ".\Lib"
 #The location of the Common Library of functions
 $commonLib = "$libRoot\CommonLib.psm1"
 
+#Email address used to send email
+$from="no-reply@sterlingcrane.com"
+
+#Email address to send the emails to
+$to="wruttan@sterlingcrane.com"
+
+#Subject of the email sent
+$subject="Test email to see if new relay is working"
+
+#Host name of the server sending the message
+$smtpServer="relay.sterlingcrane.com"
+
 #Relay Server Changes Project
 #Sterling Crane .CA DNS Zone name
 $sterlingDotCa = "sterlingcrane.ca"
@@ -30,13 +42,13 @@ $dc9="edmsdc9"
 
 #These are used for the TestDNSChanges.ps1 script
 #Name of the test .CA DNS Zone
-$tsterlingDotCa = "testzone.ca"
+#$tsterlingDotCa = "testzone.ca"
 
 #Name of the test .COM DNS Zone
-$tsterlingDotCom = "testzone.com"
+#$tsterlingDotCom = "testzone.com"
 
 #A test hostname of the relay server
-$thostAlias1 = "edmsmail.testzone.ca"
+$hostAlias1 = "edmsmail.testzone.ca"
 
 #A test hostname of the relay server
-$thostAlias2 = "edmsdutil3.testzone.ca"
+$hostAlias2 = "edmsdutil3.testzone.ca"
