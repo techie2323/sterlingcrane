@@ -38,16 +38,14 @@ function UpdateCountry {
         catch {
             #If it's unable to load the user info it updates the CSV with "Completed" type NA
             $RowIndex = [array]::IndexOf($table.Username,$u.Username)
-            if($RowIndex -gt -1)
-            {
-                if($table[$RowIndex].Complete -eq ""){
-                    $table[$RowIndex].Complete = "NA"
-                    $table | Export-Csv .\Lib\UserUpdate1.csv -NoTypeInformation 
-                }
+            if($table[$RowIndex].Complete -eq ""){
+                $table[$RowIndex].Complete = "NA"
+                $table | Export-Csv .\Lib\UserUpdate1.csv -NoTypeInformation 
+            }
 
             continue
-            }
         }
+        
         
         #Loads AD User info into a variable
         $Enabled = Get-ADUser -Identity $u.Username -Properties *
