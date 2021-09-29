@@ -1,19 +1,18 @@
 <#
 	.SYNOPSIS
-	This script will create the Test Zones, DNS Entries and then delete and add the new DNS Entries just like the real script
+	The script tests to make sure that the DNS cache on the server is updated with the new relay server IP
 	.DESCRIPTION
 	This script will do the following
-        - Create 4 test zones
-        - Create the DNS entries in the test zones
-        - Test to make sure that the entries are created
-        - Cleans up the zones after the script is done
+        - Gets the current DNS cache on the server and stores it in a file
+        - Clears the DNS cache on the server
+        - Pings the relay server to get the new IP and stores that in a file
+        - Shows the DNS cache on the server after the ping
+		- Emails the results of the three actions to the user
 	.OUTPUTS
-	Will output a display of the DNS records after they are created and then email the script user the results of the test
-	
-	.EXAMPLE
+	Will email the $to user the results of the DNS cache update and ping
 	
 	.NOTES
-		ScriptName	: TestDNSChanges.ps1
+		ScriptName	: UpdateRelay.ps1
 		Created by  : Winston Ruttan
 		Date Coded  : 09/09/2021
 #>

@@ -16,7 +16,7 @@
 	.NOTES
 		ScriptName	: UserUpdate.ps1
 		Created by  : Winston Ruttan
-		Date Coded  : 09/09/2021
+		Date Coded  : 09/12/2021
 #>
 
 #Imports the CSV file
