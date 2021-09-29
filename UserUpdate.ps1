@@ -20,7 +20,7 @@
 #>
 
 #Imports the CSV file
-$Users = Import-Csv -path ".\Lib\UserUpdate1.csv" -Header "LegalName","Username","Country","Complete" | Select-Object -Skip 1
+$Users = Import-Csv -path ".\Lib\UserUpdate1.csv" -Header "LegalName","Username","Branch","Country","Complete" | Select-Object -Skip 1
 
 #Imports the CSV file again, possibily redenudant I will have to look into that
 $table = Import-Csv -Path .\lib\UserUpdate1.csv 
