@@ -46,7 +46,7 @@ if($exists -eq $true){
     New-Item $attachment
 }
 
-$resultsContent= $hostname
+$resultsContent = $hostname
 
 Add-Content $attachment $resultsContent
 

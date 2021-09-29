@@ -40,13 +40,6 @@ $dc="edmsdc0"
 $dc3="edmsdc3"
 $dc9="edmsdc9"
 
-#These are used for the TestDNSChanges.ps1 script
-#Name of the test .CA DNS Zone
-#$tsterlingDotCa = "testzone.ca"
-
-#Name of the test .COM DNS Zone
-#$tsterlingDotCom = "testzone.com"
-
 #A test hostname of the relay server
 $hostAlias1 = "edmsmail.testzone.ca"
 
