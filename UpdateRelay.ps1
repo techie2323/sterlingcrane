@@ -17,43 +17,62 @@
 		Date Coded  : 09/09/2021
 #>
 
-if(!($confPath))
-{
-	$confPath = ".\config\config.ps1"
-}
-try
-{
-	#load the configuration
-	. $confPath
-}catch{
-	Write-Error "Error Unable to load config file $ConfPath check to see if it was there or use -ConfPath to specify the Config file"
-}
+#Email address used to send email
+$from="no-reply@sterlingcrane.com"
+
+#Email address to send the emails to
+$to="wruttan@sterlingcrane.com"
+
+#Subject of the email sent
+$subject="Test email to see if new relay is working"
+
+#Host name of the server sending the message
+$smtpServer="relay.sterlingcrane.com"
+
+$path = "C:\temp"
 
 
 #Get the hostname
 $hostname = [System.Net.Dns]::GetHostName()
 
 #Sets the attachment file name using the hostname
-$attachment = "c:\temp\"+$hostname+"-results.txt"
+$attachment = $hostname+"-results.txt"
 
-#Creates blank txt file for the results
-$exists = Test-Path $attachment
+#Checks to see if there is a "temp folder"
+try{
+	$exists = Test-Path -Path $path -ErrorAction Stop
 
-if($exists -eq $true){
-    Remove-Item -Path $attachemnt -Force
-    New-Item $attachment
-}else{
-    New-Item $attachment
+}catch{
+	
+	#if the folder doesn't exist
+	if($exists -eq $null){
+		
+		#Folder is created
+		New-Item -Path "c:\" -Name "temp" -ItemType "directory"
+		
+		#File is created
+		New-Item -Path $path -ItemType "file" -Name $attachment
+	
+	#If the folder exists
+	}else{
+
+		#File is created
+		New-Item -Path $path -ItemType "file" -Name $attachment
+		
+		$attachment = $path + $hostname + "-results.txt"
+	}
+
+	continue
 }
 
 $resultsContent = $hostname
 
-Add-Content $attachment $resultsContent
+Add-Content -Path $attachment -Value $resultsContent
 
 #Gets the current DNS Cache and saves that to the results file
 $resultsContent = Get-DnsClientCache | Out-String
 
-Add-Content $attachment $resultsContent
+Add-Content -Path $attachment -Value $resultsContent
 
 
 #Clears the DNS Cache
@@ -62,13 +81,13 @@ Clear-DnsClientCache
 #Pings the new relay server and saves the result to file
 $resultsContent = Test-Connection -ComputerName $smtpServer | Out-String
 
-Add-Content $attachment $resultsContent
+Add-Content -Path $attachment -Value $resultsContent
 
 
 #Gets the current DNS Cache again and save results to file
 $resultsContent = Get-DnsClientCache | Out-String
 
-Add-Content $attachment $resultsContent
+Add-Content -Path $attachment -Value $resultsContent
 
 
 #Sends the email with the results files attached
