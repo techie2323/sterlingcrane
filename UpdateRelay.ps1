@@ -109,10 +109,14 @@ function UpdateCache {
 	}
 
 	#Gets the Hostname of he server and adds it to the results
+	$resultsContent = "Hostname:"
 	$resultsContent = $hostname
 	UpdateResults($resultsContent) 
 
 	#Gets the current DNS Cache and saves that to the results file
+	$resultsContent = "=========================================================================="
+	$resultsContent = "+						Current DNS Cache								+"
+	$resultsContent = "=========================================================================="
 	$resultsContent = Get-DnsClientCache | Out-String
 	UpdateResults($resultsContent) 
 	
@@ -120,10 +124,16 @@ function UpdateCache {
 	Clear-DnsClientCache
 
 	#Pings the new relay server and saves the result to file
+	$resultsContent = "=========================================================================="
+	$resultsContent = "+						 Ping results									+"
+	$resultsContent = "=========================================================================="
 	$resultsContent = Test-Connection -ComputerName $smtpServer | Out-String
 	UpdateResults($resultsContent) 
 
 	#Gets the current DNS Cache again and save results to file
+	$resultsContent = "=========================================================================="
+	$resultsContent = "+					 DNS Cache After Ping 								+"
+	$resultsContent = "=========================================================================="
 	$resultsContent = Get-DnsClientCache | Out-String
 	UpdateResults($resultsContent) 
 

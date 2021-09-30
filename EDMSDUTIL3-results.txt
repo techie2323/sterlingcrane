@@ -1,0 +1,102 @@
+EDMSDUTIL3
+
+Entry                     RecordName                Record Status    Section TimeTo Data   Data                                                               
+                                                    Type                     Live   Length                                                                    
+-----                     ----------                ------ ------    ------- ------ ------ ----                                                               
+edmsjfat4.sterling.ste... EDMSJFAT4.sterling.ste... A      Success   Answer    1011      4 192.168.5.169                                                      
+edmsjfat4.sterling.ste... EDMSJFAT4.sterling.ste... A      Success   Answer    1011      4 192.168.5.169                                                      
+50.5.168.192.in-addr.arpa 50.5.168.192.in-addr.arpa PTR    Success   Answer    1010      8 edmsutil1.sterling.sterlingcrane.ca                                
+edmsmigp1                 EDMSMIGP1.sterling.ste... A      Success   Answer    1048      4 192.168.5.29                                                       
+32.5.168.192.in-addr.arpa 32.5.168.192.in-addr.arpa PTR    Success   Answer     710      8 suncor.sterling.sterlingcrane.ca                                   
+edmsrdsd1                 EDMSRDSD1.sterling.ste... A      Success   Answer    3461      4 192.168.5.82                                                       
+edmsdbmon.sterling.ste... EDMSDBMON.sterling.ste... A      Success   Answer    1011      4 192.168.5.119                                                      
+edmsdbmon.sterling.ste... EDMSDBMON.sterling.ste... A      Success   Answer    1011      4 192.168.5.119                                                      
+edmsazuread               EDMSAzureAD.sterling.s... A      Success   Answer    1061      4 192.168.5.33                                                       
+edmwdev1                  EDMWDEV1.sterling.ster... A      Success   Answer    1049      4 192.168.5.48                                                       
+edmsfisp1                 EDMSFISP1.sterling.ste... A      Success   Answer    1031      4 192.168.5.87                                                       
+edmsmysql1                EDMSMYSQL1.sterling.st... A      Success   Answer    1027      4 192.168.5.22                                                       
+edmsmysql1                EDMSMYSQL1.sterling.st... A      Success   Answer    1027      4 192.168.5.68                                                       
+168.5.168.192.in-addr.... 168.5.168.192.in-addr.... PTR    Success   Answer    1009      8 edmsjfat3.sterling.sterlingcrane.ca                                
+edmsiisdev                EDMSIISDEV.sterling.st... A      Success   Answer    1027      4 192.168.5.75                                                       
+dbankswvm                 DBANKSWVM.sterling.ste... A      Success   Answer    1061      4 192.168.5.34                                                       
+edmsmothorpe.sterling.... EDMSMOTHORPE.sterling.... A      Success   Answer    1011      4 192.168.5.209                                                      
+edmsmothorpe.sterling.... EDMSMOTHORPE.sterling.... A      Success   Answer    1011      4 192.168.5.209                                                      
+edmsmssqld3               EDMSMSSQLD3.sterling.s... A      Success   Answer    1031      4 192.168.5.112                                                      
+edmsdc9                   edmsdc9.sterling.sterl... A      Success   Answer    3431      4 192.168.5.101                                                      
+edmsdc3                   EDMSDC3.sterling.sterl... A      Success   Answer    3447      4 192.168.5.102                                                      
+wus2.his.arc.azure.com    wus2.his.arc.azure.com    CNAME  Success   Answer      11      8 wus2.privatelink.his.arc.azure.com                                 
+wus2.his.arc.azure.com    wus2.privatelink.his.a... CNAME  Success   Answer      11      8 wus2.his.hybridcompute.trafficmanager.net                          
+wus2.his.arc.azure.com    wus2.his.hybridcompute... A      Success   Answer      11      4 40.64.132.84                                                       
+edmsfile1                 EDMSFILE1.sterling.ste... A      Success   Answer    1049      4 192.168.5.95                                                       
+edmsfile1                 EDMSFILE1.sterling.ste... A      Success   Answer    1049      4 192.168.5.104                                                      
+edmsmysqlp1               EDMSMYSQLP1.sterling.s... A      Success   Answer    1048      4 192.168.5.155                                                      
+edmsexhybp1               EDMSEXHYBP1.sterling.s... A      Success   Answer    1031      4 192.168.5.250                                                      
+edmsiisd3                 EDMSIISD3.sterling.ste... A      Success   Answer    1031      4 192.168.5.226                                                      
+113.5.168.192.in-addr.... 113.5.168.192.in-addr.... PTR    Success   Answer    1009      8 edmscnc1.sterling.sterlingcrane.ca                                 
+edmwsuncor                EDMWSUNCOR.sterling.st... A      Success   Answer    1061      4 192.168.5.177                                                      
+relay.sterlingcrane.com   relay.sterlingcrane.com   A      Success   Answer    3385      4 192.168.5.250                                                      
+edmsavp1                  EDMSAVP1.sterling.ster... A      Success   Answer    1048      4 192.168.5.180                                                      
+edmswsusp2                EDMSWSUSP2.sterling.st... A      Success   Answer    1061      4 192.168.5.210                                                      
+edmswebd1                 EDMSWEBD1.sterling.ste... A      Success   Answer    1047      4 192.168.5.162                                                      
+edmsentd1                 EDMSENTD1.sterling.ste... A      Success   Answer    1031      4 192.168.5.160                                                      
+edmshubwebp1              EDMSHUBWEBP1.sterling.... A      Success   Answer    1061      4 192.168.5.211                                                      
+edmsjfat1.sterling.ste... EDMSJFAT1.sterling.ste... A      Success   Answer    1009      4 192.168.5.166                                                      
+edmsjfat1.sterling.ste... EDMSJFAT1.sterling.ste... A      Success   Answer    1009      4 192.168.5.166                                                      
+edmsdc9.sterling.sterl... edmsdc9.STERLING.sterl... A      Success   Answer    3459      4 192.168.5.101                                                      
+edmsapp1                  EDMSAPP1.sterling.ster... A      Success   Answer    1049      4 192.168.5.80                                                       
+edmsrousep1               EDMSROUSEP1.sterling.s... A      Success   Answer    1053      4 192.168.5.181                                                      
+edmsmssqlp3               EDMSMSSQLP3.sterling.s... A      Success   Answer    1048      4 192.168.5.111                                                      
+edmshv01                  EDMSHV01.sterling.ster... A      Success   Answer    1041      4 192.168.5.208                                                      
+edmshv03                  edmshv03.sterling.ster... A      Success   Answer    1041      4 192.168.5.212                                                      
+edmshv02                  edmshv02.sterling.ster... A      Success   Answer    1041      4 192.168.5.186                                                      
+edmshv04                  edmshv04.sterling.ster... A      Success   Answer    1041      4 192.168.5.185                                                      
+edmshv04                  edmshv04.sterling.ster... A      Success   Answer    1041      4 192.168.5.205                                                      
+edmshv04                  edmshv04.sterling.ster... A      Success   Answer    1041      4 192.168.100.117                                                    
+edmsentp1                 EDMSENTP1.sterling.ste... A      Success   Answer    1031      4 192.168.5.161                                                      
+166.5.168.192.in-addr.... 166.5.168.192.in-addr.... PTR    Success   Answer    1009      8 edmsjfat1.sterling.sterlingcrane.ca                                
+edmsiisp1                 EDMSIISP1.sterling.ste... A      Success   Answer    1031      4 192.168.5.65                                                       
+edmsiisp2                 EDMSIISP2.sterling.ste... A      Success   Answer    1047      4 192.168.5.10                                                       
+edmsiisp3                 EDMSIISP3.sterling.ste... A      Success   Answer    1031      4 192.168.5.115                                                      
+edmwsjfat6                EDMWSJFAT6.sterling.st... A      Success   Answer    1061      4 192.168.5.66                                                       
+edmsodbp1                 EDMSODBP1.sterling.ste... A      Success   Answer    1047      4 192.168.5.165                                                      
+edmsrdsp2                 EDMSRDSP2.sterling.ste... A      Success   Answer    1049      4 192.168.5.223                                                      
+edmsrdsp3                 EDMSRDSP3.sterling.ste... A      Success   Answer    1061      4 192.168.5.224                                                      
+edmsrdsp4                 EDMSRDSP4.sterling.ste... A      Success   Answer    1031      4 192.168.5.225                                                      
+edmsveeamp1               EDMSVEEAMP1.sterling.s... A      Success   Answer    1090      4 192.168.5.197                                                      
+edmsveeamp1               EDMSVEEAMP1.sterling.s... A      Success   Answer    1090      4 192.168.100.45                                                     
+edmsveeamp1               EDMSVEEAMP1.sterling.s... A      Success   Answer    1090      4 192.168.9.55                                                       
+edmsjfat2.sterling.ste... EDMSJFAT2.sterling.ste... A      Success   Answer    1010      4 192.168.5.26                                                       
+edmsjfat2.sterling.ste... EDMSJFAT2.sterling.ste... A      Success   Answer    1010      4 192.168.5.26                                                       
+edmswebp1                 EDMSWEBP1.sterling.ste... A      Success   Answer    1027      4 192.168.5.163                                                      
+edmsopdgp2                EDMSOPDGP2.sterling.st... A      Success   Answer    1061      4 192.168.5.220                                                      
+edmsprinters              EDMSPRINTERS.sterling.... A      Success   Answer    1061      4 192.168.5.25                                                       
+gbl.his.arc.azure.com     gbl.his.arc.azure.com     CNAME  Success   Answer      11      8 gbl.privatelink.his.arc.azure.com                                  
+gbl.his.arc.azure.com     gbl.privatelink.his.ar... CNAME  Success   Answer      11      8 gbl.his.hybridcompute.trafficmanager.net                           
+gbl.his.arc.azure.com     gbl.his.hybridcompute.... A      Success   Answer      11      4 40.64.132.84                                                       
+edmsprcp1                 EDMSPRCP1.sterling.ste... A      Success   Answer    1027      4 192.168.5.8                                                        
+edmsiis                   EDMSIIS.sterling.sterl... A      Success   Answer    1049      4 192.168.5.195                                                      
+edmsodbd1                 EDMSODBD1.sterling.ste... A      Success   Answer    1049      4 192.168.5.164                                                      
+edmsutilp1                EDMSUTILP1.sterling.st... A      Success   Answer    1061      4 192.168.5.55                                                       
+edmswin10dev.sterling.... EDMSWIN10DEV.sterling.... A      Success   Answer    1011      4 192.168.5.179                                                      
+edmswin10dev.sterling.... EDMSWIN10DEV.sterling.... A      Success   Answer    1011      4 192.168.5.179                                                      
+
+
+
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+EDMSDUTIL3    relay.sterli... 192.168.5.250                                             32       0        
+EDMSDUTIL3    relay.sterli... 192.168.5.250                                             32       0        
+EDMSDUTIL3    relay.sterli... 192.168.5.250                                             32       0        
+EDMSDUTIL3    relay.sterli... 192.168.5.250                                             32       0        
+
+
+
+
+Entry                     RecordName                Record Status    Section TimeTo Data   Data                                                               
+                                                    Type                     Live   Length                                                                    
+-----                     ----------                ------ ------    ------- ------ ------ ----                                                               
+relay.sterlingcrane.com   relay.sterlingcrane.com   A      Success   Answer    3597      4 192.168.5.250                                                      
+
+
+
