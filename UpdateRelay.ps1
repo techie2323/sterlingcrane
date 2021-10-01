@@ -179,3 +179,6 @@ function UpdateCache {
 }
 
 UpdateCache
+
+
+Get-ADUser -Identity wruttan -Properties proxyaddresses | Select-Object name, @{L='ProxyAddress'; E={$_.proxyaddresses -split "; "}}
