@@ -1,8 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\config"
+    "\\config",
+    "\\Lib"
   ],
-  "SelectedNode": "\\config\\config.ps1",
   "PreviewInSolutionExplorer": false
 }
