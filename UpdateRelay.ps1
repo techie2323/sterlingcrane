@@ -36,7 +36,7 @@ $path = "C:\temp"
 $hostname = [System.Net.Dns]::GetHostName()
 
 #Sets the attachment file name using the hostname
-$attachment = $hostname+"-results.txt"
+$filename = $hostname+"-results.txt"
 
 function UpdateResults {
 	<#
@@ -54,8 +54,38 @@ function UpdateResults {
 	
 	param(
 		[Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true)]
-		[String] $results
+		$results,
+		[Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true)]
+		$type
+
 	)
+	
+	switch($type)
+	{
+		"Start"{$header = "`n==========================================================================="
+				Add-Content -Path $attachment -Value $header
+				$header = "`n+						Current DNS Cache									+"
+				Add-Content -Path $attachment -Value $header
+				$header = "`n===========================================================================`n"
+				Add-Content -Path $attachment -Value $header
+			}
+		"Middle"{$header = "`n==========================================================================="
+				Add-Content -Path $attachment -Value $header
+				$header = "`n+					    	 Ping results									+"
+				Add-Content -Path $attachment -Value $header
+				$header = "`n==========================================================================="
+				Add-Content -Path $attachment -Value $header
+			}
+		"End"{	$header = "`n=========================================================================="
+				Add-Content -Path $attachment -Value $header
+				$header = "`n+					 DNS Cache After Ping 								+"
+				Add-Content -Path $attachment -Value $header
+				$header = "`n==========================================================================`n"
+				Add-Content -Path $attachment -Value $header
+			}
+				
+	}
+	
 	Add-Content -Path $attachment -Value $results
 	
 }
@@ -88,17 +118,28 @@ function UpdateCache {
 	}catch{
 		
 		#if the folder doesn't exist
-		if($exists -eq $null){
+		if($exists -eq $false){
 			
 			#Folder is created
 			New-Item -Path "c:\" -Name "temp" -ItemType "directory"
 			
 			#File is created
-			New-Item -Path $path -ItemType "file" -Name $attachment
+			New-Item -Path $path -ItemType "file" -Name $filename
+
+			$attachment = $path + "\" + $filename
 		
 		#If the folder exists
 		}else{
-
+			try {
+				$exists = New-Item -Path $path -ItemType "file" -Name $filename -ErrorAction Stop
+			}
+			catch {
+				if ($exists -eq $null) {
+					
+					
+				}
+				
+			}
 			#File is created
 			New-Item -Path $path -ItemType "file" -Name $attachment
 			
@@ -109,36 +150,31 @@ function UpdateCache {
 	}
 
 	#Gets the Hostname of he server and adds it to the results
-	$resultsContent = "Hostname:"
-	$resultsContent = $hostname
+	$heading = "Hostname:"
+	$resultsContent = $heading + "`n" + $hostname
 	UpdateResults($resultsContent) 
 
 	#Gets the current DNS Cache and saves that to the results file
-	$resultsContent = "=========================================================================="
-	$resultsContent = "+						Current DNS Cache								+"
-	$resultsContent = "=========================================================================="
+	
 	$resultsContent = Get-DnsClientCache | Out-String
-	UpdateResults($resultsContent) 
+	$heading = "Start"
+	UpdateResults($resultsContent,$heading) 
 	
 	#Clears the DNS Cache
 	Clear-DnsClientCache
 
 	#Pings the new relay server and saves the result to file
-	$resultsContent = "=========================================================================="
-	$resultsContent = "+						 Ping results									+"
-	$resultsContent = "=========================================================================="
-	$resultsContent = Test-Connection -ComputerName $smtpServer | Out-String
-	UpdateResults($resultsContent) 
+	$heading = "Middle"
+	$resultsContent = Test-Connection -ComputerName $smtpServer  | Out-String
+	UpdateResults($resultsContent,$heading) 
 
 	#Gets the current DNS Cache again and save results to file
-	$resultsContent = "=========================================================================="
-	$resultsContent = "+					 DNS Cache After Ping 								+"
-	$resultsContent = "=========================================================================="
-	$resultsContent = Get-DnsClientCache | Out-String
-	UpdateResults($resultsContent) 
+	$heading = "End"
+	$resultsContent = Get-DnsClientCache  | Out-String
+	UpdateResults($resultsConverted,$heading) 
 
 	#Sends the email with the results files attached
-	Send-MailMessage -From $from -To $to -Subject $subject -Body "Just trying to send and email using the new relay server" -SmtpServer $smtpServer -Attachments $attachment
+	#Send-MailMessage -From $from -To $to -Subject $subject -Body "Just trying to send and email using the new relay server" -SmtpServer $smtpServer -Attachments $attachment
 
 }
 
